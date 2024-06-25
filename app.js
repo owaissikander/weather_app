@@ -47,13 +47,6 @@ function fetchWeather(lat, lon, callback) {
 }
 
 
-fetchWeather(
-    touristDestinations[20].latitude,
-    touristDestinations[20].longitude,
-    displayData
-
-);
-
 
 function convertUnixTimeToLocalTime(unixTimestamp) {
     const dateObject = new Date(unixTimestamp * 1000); // Multiply by 1000 to convert seconds to milliseconds
@@ -76,29 +69,48 @@ function convertUnixTimeToLocalTime(unixTimestamp) {
 
 //var date = document.getElementById('date')
 
-function displayData(info) {
-    console.log("info==>", info);
-    weatherimg.src = ` http://openweathermap.org/img/w/${info.weather[0].icon}.png`
-    local.innerText = info.name
-    // console.log(local.value)
-    // date.innerText = "sys.country" 
-    const localTimeString = convertUnixTimeToLocalTime(info.dt);
-    // console.log("Local Time:", localTimeString);
-    date.innerText = localTimeString
-    temperature.innerText = Math.ceil(info.main.temp - 273) + "°";
-    feels_like.innerText = 'feels like ' + Math.ceil(info.main.feels_like - 273)
-    sunny.innerText = info.weather[0].main
-}
+// function displayData(info) {
+//     //console.log("info==>", info);
+//     weatherimg.src = ` http://openweathermap.org/img/w/${info.weather[0].icon}.png`
+//     local.innerText = info.name
+//     // console.log(local.value)
+//     // date.innerText = "sys.country" 
+//     const localTimeString = convertUnixTimeToLocalTime(info.dt);
+//     // console.log("Local Time:", localTimeString);
+//     date.innerText = localTimeString
+//     temperature.innerText = Math.ceil(info.main.temp - 273) + "°";
+//     feels_like.innerText = 'feels like ' + Math.ceil(info.main.feels_like - 273)
+//     sunny.innerText = info.weather[0].main
+// }
 
 
 
 search_bar.addEventListener('click', function () {
-    var user_input = prompt("search_weather")
-    //console.log(user_input)
-    user_input.toLowerCase().includes(touristDestinations.name)
-    //console.log(user_input)
-    //user_input.indexOf(touristDestinations.info[0].name)
+    //console.log(this.value)
+    //console.log(touristDestinations[this.value])
 
-    var index = touristDestinations.indexOf(touristDestinations.name.value == 'Hunza Valley')
-    console.log("===========>", index)
+
+
+
+    fetchWeather(
+        touristDestinations[this.value].latitude,
+        touristDestinations[this.value].longitude,
+        displayData
+
+    );
 })
+
+
+function displayData(info) {
+    console.log("info==>", info);
+    weatherimg.src = ` http://openweathermap.org/img/w/${info.weather[0].icon}.png`
+    local.innerText = info.name
+    // // console.log(local.value)
+    date.innerText = "sys.country"
+    const localTimeString = convertUnixTimeToLocalTime(info.dt);
+    console.log("Local Time:", localTimeString);
+    date.innerText = localTimeString
+    temperature.innerText = Math.ceil(info.main.temp - 273) + "°";
+    feels_like.innerText = 'feels like ' + Math.ceil(info.main.feels_like - 273) + "°";
+    sunny.innerText = info.weather[this.value].main
+}
